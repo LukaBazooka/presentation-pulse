@@ -39,7 +39,7 @@ const AppSidebar = () => {
   return (
     <Sidebar className="bg-dark border-r border-primary/20">
       <div className="p-4">
-        <Link to="/" className="text-2xl font-bold text-light hover:text-primary transition-colors flex items-center gap-2 font-['system-ui']">
+        <Link to="/" className="text-2xl font-bold text-light hover:text-primary transition-colors flex items-center gap-2">
           <Mic className="h-6 w-6" />
           pitchington
         </Link>
