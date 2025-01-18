@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mic, Camera, Users } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +10,7 @@ import {
 import Layout from '@/components/Layout';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [isRecording, setIsRecording] = useState(false);
   const [timer, setTimer] = useState(0);
   const [micActive, setMicActive] = useState(false);
@@ -35,6 +37,15 @@ const Index = () => {
     if (score < 40) return 'text-red-500';
     if (score < 70) return 'text-yellow-500';
     return 'text-green-500';
+  };
+
+  const handlePresentationToggle = () => {
+    if (isRecording) {
+      setIsRecording(false);
+      navigate('/metrics');
+    } else {
+      setIsRecording(true);
+    }
   };
 
   const canStartPresentation = micActive && cameraActive;
@@ -87,7 +98,7 @@ const Index = () => {
 
           {/* Start/Stop Button */}
           <button
-            onClick={() => setIsRecording(!isRecording)}
+            onClick={handlePresentationToggle}
             disabled={!canStartPresentation}
             className={`px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold ${
               canStartPresentation 
