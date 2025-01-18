@@ -78,9 +78,9 @@ const Metrics = () => {
                 <Line 
                   type="monotone" 
                   dataKey="score" 
-                  stroke="#1EAEDB" 
+                  stroke="#10B981" 
                   strokeWidth={2}
-                  dot={{ fill: '#1EAEDB' }}
+                  dot={{ fill: '#10B981' }}
                 />
               </LineChart>
             </ResponsiveContainer>
