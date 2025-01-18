@@ -25,12 +25,12 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1EAEDB",
-          hover: "#0EA5E9",
+          DEFAULT: "#10B981", // Changed from blue to emerald green
+          hover: "#059669", // Darker emerald green for hover
         },
         secondary: {
-          DEFAULT: "#0EA5E9",
-          hover: "#1EAEDB",
+          DEFAULT: "#059669", // Darker emerald green
+          hover: "#10B981", // Lighter emerald green for hover
         },
         dark: "#222222",
         light: "#FFFFFF",
