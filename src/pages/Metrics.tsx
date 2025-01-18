@@ -112,7 +112,7 @@ const Metrics = () => {
         {/* Improvements Section */}
         <div className="bg-dark/50 p-6 rounded-lg">
           <h2 className="text-xl font-semibold mb-4">What to improve for next time</h2>
-          <ul className="space-y-2">
+          <ul className="space-y-4">
             {improvements.map((improvement, index) => (
               <li key={index} className="flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-sm">
