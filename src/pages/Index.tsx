@@ -57,7 +57,11 @@ const Index = () => {
         <div className="flex flex-col items-center gap-8">
           {/* Engagement Score Visualization */}
           <Users 
-            className={`w-32 h-32 transition-colors duration-500 ${getScoreColor(engagementScore)} animate-pulse`}
+            className={`w-32 h-32 transition-colors duration-500 ${
+              isRecording 
+                ? `${getScoreColor(engagementScore)} animate-pulse` 
+                : 'text-gray-400'
+            }`}
           />
 
           {/* Device Controls */}
