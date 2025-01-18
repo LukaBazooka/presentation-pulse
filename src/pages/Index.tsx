@@ -16,7 +16,7 @@ const Index = () => {
   const [engagementScore] = useState(75); // Placeholder score
 
   React.useEffect(() => {
-    let interval: number;
+    let interval: NodeJS.Timeout;
     if (isRecording) {
       interval = setInterval(() => {
         setTimer(prev => prev + 1);
@@ -40,6 +40,7 @@ const Index = () => {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto text-light">
+        <h1 className="text-3xl font-bold mb-8 text-center">Use Pitchington to evaluate your presentation skills</h1>
         <div className="flex flex-col items-center gap-8">
           {/* Engagement Score Visualization */}
           <Users 
