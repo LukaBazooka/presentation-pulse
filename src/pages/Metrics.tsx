@@ -62,6 +62,7 @@ const Metrics = () => {
                 </text>
               </svg>
             </div>
+            <p className="text-center text-lg mt-4 text-gray-300">Your presentation rating</p>
           </div>
 
           {/* Engagement Graph */}
