@@ -47,7 +47,7 @@ const AppSidebar = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className={`${location.pathname === item.url ? "text-primary" : "text-light"} p-3`}
+                    className={`${location.pathname === item.url ? "text-primary" : "text-light"} p-3 transition-colors hover:text-primary`}
                   >
                     <Link to={item.url} className="flex items-center gap-3">
                       <item.icon className="h-6 w-6" />
