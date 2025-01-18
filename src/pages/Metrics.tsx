@@ -11,23 +11,10 @@ const data = [
 ];
 
 const improvements = [
-  { text: "Try to vary your tone more during key points", type: "medium" },
-  { text: "Make more eye contact with the camera", type: "negative" },
-  { text: "Reduce filler words like 'um' and 'uh'", type: "negative" }
+  "Try to vary your tone more during key points",
+  "Make more eye contact with the camera",
+  "Reduce filler words like 'um' and 'uh'"
 ];
-
-const getCommentColor = (type: string) => {
-  switch (type) {
-    case 'negative':
-      return '#ea384c'; // Red
-    case 'medium':
-      return '#FEF7CD'; // Yellow
-    case 'positive':
-      return '#F2FCE2'; // Green
-    default:
-      return '#10B981'; // Default primary color
-  }
-};
 
 const Metrics = () => {
   return (
@@ -107,13 +94,10 @@ const Metrics = () => {
           <ul className="space-y-2">
             {improvements.map((improvement, index) => (
               <li key={index} className="flex items-center gap-2">
-                <span 
-                  className="w-6 h-6 rounded-full flex items-center justify-center text-sm text-dark"
-                  style={{ backgroundColor: getCommentColor(improvement.type) }}
-                >
+                <span className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-sm">
                   {index + 1}
                 </span>
-                {improvement.text}
+                {improvement}
               </li>
             ))}
           </ul>
