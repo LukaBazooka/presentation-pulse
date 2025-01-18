@@ -64,26 +64,6 @@ const Index = () => {
             }`}
           />
 
-          {/* Start/Stop Button */}
-          <button
-            onClick={handlePresentationToggle}
-            disabled={!canStartPresentation}
-            className={`px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold ${
-              canStartPresentation 
-                ? 'bg-primary hover:bg-primary-hover cursor-pointer' 
-                : 'bg-gray-500 cursor-not-allowed opacity-50'
-            }`}
-          >
-            {isRecording ? 'Stop Presentation' : 'Start Presentation'}
-          </button>
-
-          {/* Timer Display */}
-          {isRecording && (
-            <div className="text-2xl font-mono">
-              {formatTime(timer)}
-            </div>
-          )}
-
           {/* Device Controls */}
           <div className="flex gap-4">
             <DropdownMenu>
@@ -112,6 +92,26 @@ const Index = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+
+          {/* Start/Stop Button */}
+          <button
+            onClick={handlePresentationToggle}
+            disabled={!canStartPresentation}
+            className={`px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold ${
+              canStartPresentation 
+                ? 'bg-primary hover:bg-primary-hover cursor-pointer' 
+                : 'bg-gray-500 cursor-not-allowed opacity-50'
+            }`}
+          >
+            {isRecording ? 'Stop Presentation' : 'Start Presentation'}
+          </button>
+
+          {/* Timer Display */}
+          {isRecording && (
+            <div className="text-2xl font-mono">
+              {formatTime(timer)}
+            </div>
+          )}
         </div>
       </div>
     </Layout>
