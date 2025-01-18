@@ -33,6 +33,11 @@ const AppSidebar = () => {
 
   return (
     <Sidebar className="bg-dark border-r border-primary/20">
+      <div className="p-4">
+        <Link to="/" className="text-2xl font-bold text-light hover:text-primary transition-colors">
+          Pitchington
+        </Link>
+      </div>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
