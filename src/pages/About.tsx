@@ -15,19 +15,19 @@ const About = () => {
           <div className="grid grid-cols-2 gap-8 max-w-2xl mx-auto">
             <div className="flex flex-col items-center">
               <UserRound className="w-16 h-16 text-light" />
-              <span className="mt-2 text-light">John Smith</span>
+              <span className="mt-2 text-light">Umar Ahmed</span>
             </div>
             <div className="flex flex-col items-center">
               <UserRoundCheck className="w-16 h-16 text-light" />
-              <span className="mt-2 text-light">Emma Johnson</span>
+              <span className="mt-2 text-light">Amine Hammoud</span>
             </div>
             <div className="flex flex-col items-center">
               <UsersRound className="w-16 h-16 text-light" />
-              <span className="mt-2 text-light">Michael Brown</span>
+              <span className="mt-2 text-light">Michael Boucouvalas</span>
             </div>
             <div className="flex flex-col items-center">
               <User className="w-16 h-16 text-light" />
-              <span className="mt-2 text-light">Sarah Davis</span>
+              <span className="mt-2 text-light">Luka Jovanovic</span>
             </div>
           </div>
         </div>
