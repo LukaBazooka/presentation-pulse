@@ -130,7 +130,7 @@ const Metrics = () => {
         <div className="flex justify-center mt-8">
           <Button 
             onClick={() => navigate('/')}
-            className="bg-green-500 hover:bg-green-600 text-white"
+            className="bg-primary hover:bg-primary-hover text-light font-semibold text-lg"
           >
             Present Again
           </Button>
