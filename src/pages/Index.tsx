@@ -15,7 +15,7 @@ const Index = () => {
   const [timer, setTimer] = useState(0);
   const [micActive, setMicActive] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
-  const [engagementScore] = useState(75);
+  const [engagementScore] = useState(75); // Placeholder score
 
   React.useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -53,17 +53,13 @@ const Index = () => {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto text-light">
-        <h1 className="text-3xl font-bold mb-16 text-center flex items-center justify-center gap-2">
+        <h1 className="text-3xl font-bold mb-16 text-center">
           {isRecording 
             ? "Good luck on your presentation!" 
-            : (
-              <>
-                <Mic className="h-6 w-6" />
-                Use pitchington to evaluate your presentation skills.
-              </>
-            )}
+            : "Use pitchington to evaluate your presentation skills."}
         </h1>
         <div className="flex flex-col items-center gap-8">
+          {/* Engagement Score Visualization */}
           <Users 
             className={`w-32 h-32 transition-colors duration-500 ${
               isRecording 
