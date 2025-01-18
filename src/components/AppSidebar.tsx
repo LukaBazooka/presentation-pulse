@@ -1,38 +1,41 @@
-import { Presentation, BarChart3, HelpCircle } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { BarChart3, HelpCircle, Home } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarLink,
 } from "@/components/ui/sidebar";
-
-const items = [
-  {
-    title: "Present",
-    url: "/",
-    icon: Presentation,
-  },
-  {
-    title: "Metrics",
-    url: "/metrics",
-    icon: BarChart3,
-  },
-  {
-    title: "Help",
-    url: "/help",
-    icon: HelpCircle,
-  },
-];
 
 const AppSidebar = () => {
   const location = useLocation();
 
+  const isLinkActive = (path: string) => {
+    return location.pathname === path;
+  };
+
+  const links = [
+    {
+      title: 'Home',
+      icon: Home,
+      href: '/',
+    },
+    {
+      title: 'Metrics',
+      icon: BarChart3,
+      href: '/metrics',
+    },
+    {
+      title: 'Help',
+      icon: HelpCircle,
+      href: '/help',
+    },
+  ];
+
   return (
-    <Sidebar className="bg-dark border-r border-primary/20">
+    <Sidebar className="bg-dark">
       <div className="p-4">
         <Link to="/" className="text-2xl font-bold text-light hover:text-primary transition-colors">
           Pitchington
@@ -41,21 +44,16 @@ const AppSidebar = () => {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    className={location.pathname === item.url ? "text-primary" : "text-light"}
-                  >
-                    <Link to={item.url} className="flex items-center gap-2">
-                      <item.icon className="h-5 w-5" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            {links.map((link) => (
+              <SidebarLink
+                key={link.href}
+                href={link.href}
+                active={isLinkActive(link.href)}
+                icon={link.icon}
+              >
+                {link.title}
+              </SidebarLink>
+            ))}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
