@@ -6,7 +6,9 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarLink,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
 } from "@/components/ui/sidebar";
 
 const AppSidebar = () => {
@@ -44,16 +46,21 @@ const AppSidebar = () => {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            {links.map((link) => (
-              <SidebarLink
-                key={link.href}
-                href={link.href}
-                active={isLinkActive(link.href)}
-                icon={link.icon}
-              >
-                {link.title}
-              </SidebarLink>
-            ))}
+            <SidebarMenu>
+              {links.map((link) => (
+                <SidebarMenuItem key={link.href}>
+                  <SidebarMenuButton
+                    asChild
+                    className={isLinkActive(link.href) ? "text-primary" : "text-light"}
+                  >
+                    <Link to={link.href} className="flex items-center gap-2">
+                      <link.icon className="h-5 w-5" />
+                      <span>{link.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
