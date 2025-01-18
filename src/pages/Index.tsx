@@ -72,7 +72,7 @@ const Index = () => {
           <div className="flex gap-4">
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${micActive ? 'bg-green-500' : 'bg-red-500'} cursor-pointer`}>
+                <div className={`p-4 rounded-full ${micActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
                   <Mic className="h-6 w-6 text-light" />
                 </div>
               </DropdownMenuTrigger>
@@ -85,7 +85,7 @@ const Index = () => {
 
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${cameraActive ? 'bg-green-500' : 'bg-red-500'} cursor-pointer`}>
+                <div className={`p-4 rounded-full ${cameraActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
                   <Camera className="h-6 w-6 text-light" />
                 </div>
               </DropdownMenuTrigger>
