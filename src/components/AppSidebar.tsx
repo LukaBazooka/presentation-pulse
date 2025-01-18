@@ -38,7 +38,7 @@ const AppSidebar = () => {
   const location = useLocation();
 
   return (
-    <Sidebar className="bg-dark border-r border-primary/20">
+    <Sidebar className="bg-zinc-950 border-r border-primary/20">
       <div className="p-4">
         <Link to="/" className="text-2xl font-bold text-light hover:text-primary transition-colors flex items-center gap-2">
           <Mic className="h-6 w-6" />
