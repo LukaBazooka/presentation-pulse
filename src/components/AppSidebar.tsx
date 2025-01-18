@@ -32,7 +32,7 @@ const AppSidebar = () => {
   const location = useLocation();
 
   return (
-    <Sidebar className="bg-dark border-r border-primary/20">
+    <Sidebar className="bg-dark border-r border-primary/20" collapsible="none">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
