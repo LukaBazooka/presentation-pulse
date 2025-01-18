@@ -37,6 +37,8 @@ const Index = () => {
     return 'text-green-500';
   };
 
+  const canStartPresentation = micActive && cameraActive;
+
   return (
     <Layout>
       <div className="max-w-4xl mx-auto text-light">
@@ -86,7 +88,12 @@ const Index = () => {
           {/* Start/Stop Button */}
           <button
             onClick={() => setIsRecording(!isRecording)}
-            className="px-8 py-4 bg-primary hover:bg-primary-hover text-light rounded-lg transition-colors text-lg font-semibold"
+            disabled={!canStartPresentation}
+            className={`px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold ${
+              canStartPresentation 
+                ? 'bg-primary hover:bg-primary-hover cursor-pointer' 
+                : 'bg-gray-500 cursor-not-allowed opacity-50'
+            }`}
           >
             {isRecording ? 'Stop Presentation' : 'Start Presentation'}
           </button>
