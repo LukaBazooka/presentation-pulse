@@ -42,7 +42,7 @@ const Index = () => {
   const handlePresentationToggle = () => {
     if (isRecording) {
       setIsRecording(false);
-      navigate('/metrics');
+      navigate('/metrics', { state: { duration: timer } });
     } else {
       setIsRecording(true);
     }

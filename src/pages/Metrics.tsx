@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '@/components/Layout';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useLocation } from 'react-router-dom';
 
 const data = [
   { time: '0:00', score: 65 },
@@ -16,7 +17,22 @@ const improvements = [
   "Reduce filler words like 'um' and 'uh'"
 ];
 
+const formatDuration = (seconds: number): string => {
+  if (seconds < 60) {
+    return `${seconds} second${seconds !== 1 ? 's' : ''}`;
+  } else if (seconds < 3600) {
+    const minutes = Math.floor(seconds / 60);
+    return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+  } else {
+    const hours = Math.floor(seconds / 3600);
+    return `${hours} hour${hours !== 1 ? 's' : ''}`;
+  }
+};
+
 const Metrics = () => {
+  const location = useLocation();
+  const duration = location.state?.duration || 0;
+
   return (
     <Layout>
       <div className="max-w-6xl mx-auto text-light">
@@ -87,6 +103,11 @@ const Metrics = () => {
             </ResponsiveContainer>
           </div>
         </div>
+
+        {/* Duration Heading */}
+        <h2 className="text-2xl font-semibold text-center mb-8">
+          Your presentation was {formatDuration(duration)} long.
+        </h2>
 
         {/* Improvements Section */}
         <div className="bg-dark/50 p-6 rounded-lg">
