@@ -69,32 +69,38 @@ const Index = () => {
           />
 
           {/* Device Controls */}
-          <div className="flex gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${micActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
-                  <Mic className="h-6 w-6 text-light" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
-                <DropdownMenuItem onClick={() => setMicActive(true)}>
-                  Default Microphone
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex gap-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <div className={`p-4 rounded-full ${micActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
+                    <Mic className="h-6 w-6 text-light" />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white">
+                  <DropdownMenuItem onClick={() => setMicActive(true)}>
+                    Default Microphone
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${cameraActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
-                  <Camera className="h-6 w-6 text-light" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
-                <DropdownMenuItem onClick={() => setCameraActive(true)}>
-                  Default Camera
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <div className={`p-4 rounded-full ${cameraActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
+                    <Camera className="h-6 w-6 text-light" />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white">
+                  <DropdownMenuItem onClick={() => setCameraActive(true)}>
+                    Default Camera
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            
+            {canStartPresentation && (
+              <p className="text-primary font-medium mt-2">Ready to present!</p>
+            )}
           </div>
 
           {/* Start/Stop Button */}
