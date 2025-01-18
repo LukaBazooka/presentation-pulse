@@ -56,7 +56,7 @@ const Index = () => {
         <h1 className="text-3xl font-bold mb-16 text-center">
           {isRecording 
             ? "Good luck on your presentation!" 
-            : "Use Pitchington to evaluate your presentation skills."}
+            : "use pitchington to evaluate your presentation skills."}
         </h1>
         <div className="flex flex-col items-center gap-8">
           {/* Engagement Score Visualization */}
