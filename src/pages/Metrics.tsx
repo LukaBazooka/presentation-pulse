@@ -127,7 +127,7 @@ const Metrics = () => {
         </div>
 
         {/* Present Again Button */}
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-16">
           <Button 
             onClick={() => navigate('/')}
             className="px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold bg-primary hover:bg-primary-hover"
