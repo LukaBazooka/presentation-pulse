@@ -64,42 +64,6 @@ const Index = () => {
             }`}
           />
 
-          {/* Device Controls */}
-          <div className="flex gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${micActive ? 'bg-green-500' : 'bg-red-500'} cursor-pointer`}>
-                  <Mic className="h-6 w-6 text-light" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setMicActive(true)}>
-                  Default Microphone
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${cameraActive ? 'bg-green-500' : 'bg-red-500'} cursor-pointer`}>
-                  <Camera className="h-6 w-6 text-light" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setCameraActive(true)}>
-                  Default Camera
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
-          {/* Timer Display */}
-          {isRecording && (
-            <div className="text-2xl font-mono">
-              {formatTime(timer)}
-            </div>
-          )}
-
           {/* Start/Stop Button */}
           <button
             onClick={handlePresentationToggle}
@@ -112,6 +76,42 @@ const Index = () => {
           >
             {isRecording ? 'Stop Presentation' : 'Start Presentation'}
           </button>
+
+          {/* Timer Display */}
+          {isRecording && (
+            <div className="text-2xl font-mono">
+              {formatTime(timer)}
+            </div>
+          )}
+
+          {/* Device Controls */}
+          <div className="flex gap-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className={`p-4 rounded-full ${micActive ? 'bg-green-500' : 'bg-red-500'} cursor-pointer`}>
+                  <Mic className="h-6 w-6 text-light" />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                <DropdownMenuItem onClick={() => setMicActive(true)}>
+                  Default Microphone
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className={`p-4 rounded-full ${cameraActive ? 'bg-green-500' : 'bg-red-500'} cursor-pointer`}>
+                  <Camera className="h-6 w-6 text-light" />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                <DropdownMenuItem onClick={() => setCameraActive(true)}>
+                  Default Camera
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
     </Layout>
