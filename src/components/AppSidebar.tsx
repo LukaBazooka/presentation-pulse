@@ -1,4 +1,4 @@
-import { Presentation, BarChart3, HelpCircle, Settings } from "lucide-react";
+import { Presentation, BarChart3, HelpCircle } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -25,11 +25,6 @@ const items = [
     title: "Help",
     url: "/help",
     icon: HelpCircle,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
   },
 ];
 

@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Metrics from "./pages/Metrics";
 import Help from "./pages/Help";
-import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +19,6 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/metrics" element={<Metrics />} />
           <Route path="/help" element={<Help />} />
-          <Route path="/settings" element={<Settings />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
