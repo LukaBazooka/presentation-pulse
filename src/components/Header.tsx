@@ -15,7 +15,7 @@ const Header = () => {
         onClick={() => console.log('Notifications clicked')}
         aria-label="Notifications"
       >
-        <Bell className="h-3 w-3" />
+        <Bell className="h-6 w-6" />
       </button>
     </header>
   );
