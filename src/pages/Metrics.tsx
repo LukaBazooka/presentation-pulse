@@ -1,7 +1,8 @@
 import React from 'react';
 import Layout from '@/components/Layout';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 const data = [
   { time: '0:00', score: 65 },
@@ -31,6 +32,7 @@ const formatDuration = (seconds: number): string => {
 
 const Metrics = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const duration = location.state?.duration || 0;
 
   return (
@@ -110,7 +112,7 @@ const Metrics = () => {
         </h2>
 
         {/* Improvements Section */}
-        <div className="bg-dark/50 p-6 rounded-lg">
+        <div className="bg-dark/50 p-6 rounded-lg mb-8">
           <h2 className="text-xl font-semibold mb-4">What to improve for next time</h2>
           <ul className="space-y-4">
             {improvements.map((improvement, index) => (
@@ -122,6 +124,16 @@ const Metrics = () => {
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Present Again Button */}
+        <div className="flex justify-center mt-8">
+          <Button 
+            onClick={() => navigate('/')}
+            className="bg-green-500 hover:bg-green-600 text-white"
+          >
+            Present Again
+          </Button>
         </div>
       </div>
     </Layout>
