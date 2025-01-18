@@ -1,6 +1,6 @@
 import React from 'react';
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Menu } from 'lucide-react';
+import { Menu, Bell } from 'lucide-react';
 
 const Header = () => {
   return (
@@ -10,6 +10,13 @@ const Header = () => {
           <Menu className="h-6 w-6 text-light hover:text-primary transition-colors" />
         </SidebarTrigger>
       </div>
+      <button 
+        className="text-light hover:text-primary transition-colors"
+        onClick={() => console.log('Notifications clicked')}
+        aria-label="Notifications"
+      >
+        <Bell className="h-6 w-6" />
+      </button>
     </header>
   );
 };
