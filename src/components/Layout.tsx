@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-dark">
-        <div className="border-r-[5px] border-primary">
+        <div className="border-r-[4px] border-primary">
           <AppSidebar />
         </div>
         <div className="flex-1 flex flex-col">
