@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mic, Camera } from 'lucide-react';
+import { Mic, Camera, Users } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,9 +32,9 @@ const Index = () => {
   };
 
   const getScoreColor = (score: number) => {
-    if (score < 40) return 'bg-red-500';
-    if (score < 70) return 'bg-yellow-500';
-    return 'bg-green-500';
+    if (score < 40) return 'text-red-500';
+    if (score < 70) return 'text-yellow-500';
+    return 'text-green-500';
   };
 
   return (
@@ -42,8 +42,8 @@ const Index = () => {
       <div className="max-w-4xl mx-auto text-light">
         <div className="flex flex-col items-center gap-8">
           {/* Engagement Score Visualization */}
-          <div 
-            className={`w-32 h-32 rounded-full transition-colors duration-500 ${getScoreColor(engagementScore)} animate-pulse`}
+          <Users 
+            className={`w-32 h-32 transition-colors duration-500 ${getScoreColor(engagementScore)} animate-pulse`}
           />
 
           {/* Device Controls */}
