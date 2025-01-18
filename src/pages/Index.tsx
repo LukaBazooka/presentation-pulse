@@ -1,95 +1,35 @@
-import React, { useState } from 'react';
-import { Mic, Camera } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useState, useRef } from 'react';
 import Layout from '@/components/Layout';
 
 const Index = () => {
-  const [isRecording, setIsRecording] = useState(false);
-  const [timer, setTimer] = useState(0);
-  const [micActive, setMicActive] = useState(false);
-  const [cameraActive, setCameraActive] = useState(false);
-  const [engagementScore] = useState(75); // Placeholder score
+  const [isPresenting, setIsPresenting] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  React.useEffect(() => {
-    let interval: number;
-    if (isRecording) {
-      interval = setInterval(() => {
-        setTimer(prev => prev + 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isRecording]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  const startPresentation = () => {
+    setIsPresenting(true);
+    // Start timer logic here
+    timerRef.current = setInterval(() => {
+      console.log('Timer tick');
+    }, 1000);
   };
 
-  const getScoreColor = (score: number) => {
-    if (score < 40) return 'bg-red-500';
-    if (score < 70) return 'bg-yellow-500';
-    return 'bg-green-500';
+  const stopPresentation = () => {
+    setIsPresenting(false);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
   };
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto text-light">
-        <div className="flex flex-col items-center gap-8">
-          {/* Engagement Score Visualization */}
-          <div 
-            className={`w-32 h-32 rounded-full transition-colors duration-500 ${getScoreColor(engagementScore)} animate-pulse`}
-          />
-
-          {/* Device Controls */}
-          <div className="flex gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${micActive ? 'bg-green-500' : 'bg-red-500'} cursor-pointer`}>
-                  <Mic className="h-6 w-6 text-light" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setMicActive(true)}>
-                  Default Microphone
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${cameraActive ? 'bg-green-500' : 'bg-red-500'} cursor-pointer`}>
-                  <Camera className="h-6 w-6 text-light" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setCameraActive(true)}>
-                  Default Camera
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
-          {/* Timer Display */}
-          {isRecording && (
-            <div className="text-2xl font-mono">
-              {formatTime(timer)}
-            </div>
-          )}
-
-          {/* Start/Stop Button */}
-          <button
-            onClick={() => setIsRecording(!isRecording)}
-            className="px-8 py-4 bg-primary hover:bg-primary-hover text-light rounded-lg transition-colors text-lg font-semibold"
-          >
-            {isRecording ? 'Stop Presentation' : 'Start Presentation'}
-          </button>
-        </div>
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-theme(spacing.16))]">
+        <button
+          onClick={isPresenting ? stopPresentation : startPresentation}
+          className="bg-primary hover:bg-primary-hover text-light px-8 py-4 rounded-lg text-xl font-semibold transition-colors"
+        >
+          {isPresenting ? 'Stop Presentation' : 'Start Presentation'}
+        </button>
       </div>
     </Layout>
   );
