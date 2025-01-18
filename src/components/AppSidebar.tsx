@@ -1,4 +1,4 @@
-import { Presentation, BarChart3, HelpCircle } from "lucide-react";
+import { Presentation, BarChart3, HelpCircle, Mic } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -34,7 +34,8 @@ const AppSidebar = () => {
   return (
     <Sidebar className="bg-dark border-r border-primary/20">
       <div className="p-4">
-        <Link to="/" className="text-2xl font-bold text-light hover:text-primary transition-colors">
+        <Link to="/" className="text-2xl font-bold text-light hover:text-primary transition-colors flex items-center gap-2">
+          <Mic className="h-6 w-6" />
           Pitchington
         </Link>
       </div>
