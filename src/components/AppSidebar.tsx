@@ -34,8 +34,8 @@ const AppSidebar = () => {
   return (
     <Sidebar className="bg-dark border-r border-primary/20">
       <div className="p-4">
-        <Link to="/" className="text-2xl font-bold text-light hover:text-primary transition-colors flex items-center gap-2">
-          <Mic className="h-6 w-6" />
+        <Link to="/" className="text-3xl font-bold text-light hover:text-primary transition-colors flex items-center gap-2">
+          <Mic className="h-8 w-8" />
           Pitchington
         </Link>
       </div>
@@ -47,11 +47,11 @@ const AppSidebar = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className={location.pathname === item.url ? "text-primary" : "text-light"}
+                    className={`${location.pathname === item.url ? "text-primary" : "text-light"} p-3`}
                   >
-                    <Link to={item.url} className="flex items-center gap-2">
-                      <item.icon className="h-5 w-5" />
-                      <span>{item.title}</span>
+                    <Link to={item.url} className="flex items-center gap-3">
+                      <item.icon className="h-6 w-6" />
+                      <span className="text-lg">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
