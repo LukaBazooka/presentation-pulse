@@ -4,13 +4,29 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
-const data = [
-  { time: '0:00', score: 65 },
-  { time: '1:00', score: 75 },
-  { time: '2:00', score: 85 },
-  { time: '3:00', score: 70 },
-  { time: '4:00', score: 90 },
-];
+const generateTimeData = (duration: number) => {
+  const intervals = 5; // Number of data points we want
+  const timeStep = Math.floor(duration / (intervals - 1)); // Calculate time step between points
+  const data = [];
+
+  for (let i = 0; i < intervals; i++) {
+    const timeInSeconds = i * timeStep;
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    const timeLabel = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    
+    // Generate a random score between 60 and 95 for demonstration
+    // In a real application, this would come from actual engagement metrics
+    const score = Math.floor(Math.random() * (95 - 60) + 60);
+    
+    data.push({
+      time: timeLabel,
+      score: score
+    });
+  }
+
+  return data;
+};
 
 const improvements = [
   "Try to vary your tone more during key points",
@@ -49,6 +65,9 @@ const Metrics = () => {
   };
 
   const radialColor = getRadialColor(rating);
+
+  // Generate graph data based on actual duration
+  const graphData = generateTimeData(duration);
 
   return (
     <Layout>
@@ -101,7 +120,7 @@ const Metrics = () => {
           {/* Engagement Graph */}
           <div className="bg-dark/50 p-6 rounded-lg">
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={data}>
+              <LineChart data={graphData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
                 <XAxis dataKey="time" stroke="#fff" />
                 <YAxis stroke="#fff" />
