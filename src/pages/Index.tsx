@@ -37,18 +37,23 @@ const Index = () => {
 
   const startDevices = async () => {
     try {
+      console.log('Requesting media devices...');
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: true,
         audio: true 
       });
       
+      console.log('Media devices accessed successfully');
       if (videoRef.current) {
+        console.log('Setting video stream...');
         videoRef.current.srcObject = stream;
         streamRef.current = stream;
         setCameraActive(true);
         setMicActive(true);
         setIsRecording(true);
         toast.success('Camera and microphone connected successfully');
+      } else {
+        console.error('Video reference not found');
       }
     } catch (error) {
       console.error('Error accessing devices:', error);
@@ -60,6 +65,7 @@ const Index = () => {
 
   const stopDevices = () => {
     if (streamRef.current) {
+      console.log('Stopping all tracks...');
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
       setCameraActive(false);
@@ -75,6 +81,7 @@ const Index = () => {
   };
 
   const handlePresentationToggle = async () => {
+    console.log('Toggling presentation, current state:', isRecording);
     if (isRecording) {
       stopDevices();
     } else {
