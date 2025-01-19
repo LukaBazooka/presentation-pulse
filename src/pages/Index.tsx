@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mic, Camera, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Layout from '@/components/Layout';
 
 const Index = () => {
