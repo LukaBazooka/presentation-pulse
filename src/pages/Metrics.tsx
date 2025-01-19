@@ -53,7 +53,23 @@ const formatDuration = (seconds: number): string => {
 const Metrics = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const duration = location.state?.duration || 0;
+  const duration = location.state?.duration;
+
+  if (!duration) {
+    return (
+      <Layout>
+        <div className="max-w-6xl mx-auto text-light text-center">
+          <h1 className="text-3xl font-bold mb-8">Try out the presentation tool to see your metrics!</h1>
+          <Button 
+            onClick={() => navigate('/')}
+            className="px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold bg-primary hover:bg-primary-hover"
+          >
+            Start Presenting
+          </Button>
+        </div>
+      </Layout>
+    );
+  }
 
   // Generate graph data based on actual duration
   const graphData = generateTimeData(duration);
