@@ -163,13 +163,12 @@ const Metrics = () => {
                   stroke={radialColor}
                   strokeWidth={2}
                   dot={(props) => {
-                    const score = props.payload.score;
                     return (
                       <circle
                         cx={props.cx}
                         cy={props.cy}
                         r={4}
-                        fill={getScoreColor(score)}
+                        fill={radialColor}
                         stroke="none"
                       />
                     );
