@@ -16,7 +16,6 @@ const generateTimeData = (duration: number) => {
     const timeLabel = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     
     // Generate a random score between 60 and 95 for demonstration
-    // In a real application, this would come from actual engagement metrics
     const score = Math.floor(Math.random() * (95 - 60) + 60);
     
     data.push({
@@ -26,6 +25,11 @@ const generateTimeData = (duration: number) => {
   }
 
   return data;
+};
+
+const calculateAverageScore = (data: Array<{ score: number }>) => {
+  const sum = data.reduce((acc, point) => acc + point.score, 0);
+  return Math.round(sum / data.length);
 };
 
 const improvements = [
@@ -50,7 +54,12 @@ const Metrics = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const duration = location.state?.duration || 0;
-  const rating = location.state?.rating || 75;
+
+  // Generate graph data based on actual duration
+  const graphData = generateTimeData(duration);
+  
+  // Calculate the rating based on the average of engagement scores
+  const rating = calculateAverageScore(graphData);
 
   // Calculate the stroke-dashoffset based on the rating
   const radius = 40;
@@ -65,9 +74,6 @@ const Metrics = () => {
   };
 
   const radialColor = getRadialColor(rating);
-
-  // Generate graph data based on actual duration
-  const graphData = generateTimeData(duration);
 
   return (
     <Layout>
