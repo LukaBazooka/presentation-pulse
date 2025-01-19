@@ -10,7 +10,6 @@ const Index = () => {
   const [timer, setTimer] = useState(0);
   const [micActive, setMicActive] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
-  const [engagementScores, setEngagementScores] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -76,7 +75,14 @@ const Index = () => {
 
               const result = await response.json();
               console.log("Upload result:", result);
-              setEngagementScores(JSON.stringify(result, null, 2));
+
+              // Navigate to Metrics page with scores and duration
+              navigate("/metrics", {
+                state: {
+                  scores: result.scores, // Ensure scores is correctly passed
+                  duration: result.duration, // Ensure duration is correctly passed
+                },
+              });
             } catch (error) {
               console.error("Upload failed:", error);
             }
@@ -85,7 +91,9 @@ const Index = () => {
           }
 
           // Clean up
-          stream.getTracks().forEach((track) => track.stop());
+          if (streamRef.current) {
+            streamRef.current.getTracks().forEach((track) => track.stop());
+          }
           setIsRecording(false);
           recordedChunks.current = [];
         };
@@ -177,13 +185,6 @@ const Index = () => {
           </button>
 
           {isRecording && <div className="text-2xl font-mono">{formatTime(timer)}</div>}
-
-          {engagementScores && (
-            <div className="mt-8">
-              <h2 className="text-xl font-bold">Engagement Scores</h2>
-              <pre className="bg-gray-100 p-4 rounded-lg text-black">{engagementScores}</pre>
-            </div>
-          )}
         </div>
       </div>
     </Layout>

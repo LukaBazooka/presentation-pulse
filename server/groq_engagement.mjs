@@ -201,7 +201,8 @@ function unifyScores(crowdScore, audioScore) {
 (async function main() {
   try {
     const videoFilePath = process.argv[2];
-    if (!videoFilePath) throw new Error("No video file provided");
+    const outputFilePath = process.argv[3];
+    if (!videoFilePath || !outputFilePath) throw new Error("Missing required arguments: video file or output file");
 
     console.log(`Processing video: ${videoFilePath}`);
     const FIXED_VIDEO = path.join(os.tmpdir(), `fixed_${uuidv4()}.mp4`);
@@ -248,6 +249,10 @@ function unifyScores(crowdScore, audioScore) {
     }
 
     console.log("Final scores:", finalScores);
+
+    // Write the scores to the specified output file
+    fs.writeFileSync(outputFilePath, JSON.stringify(finalScores, null, 2));
+    console.log(`Scores saved to ${outputFilePath}`);
   } catch (err) {
     console.error("Error:", err.message);
   }

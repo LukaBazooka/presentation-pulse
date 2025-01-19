@@ -4,13 +4,13 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
-const getScoreColor = (score: number) => {
-  if (score < 50) return "#ea384c";
-  if (score < 70) return "#F97316";
-  return "#10B981";
+const getScoreColor = (score) => {
+  if (score < 5) return "#ea384c"; // Red for low scores
+  if (score < 7) return "#F97316"; // Orange for medium scores
+  return "#10B981"; // Green for high scores
 };
 
-const formatDuration = (seconds: number): string => {
+const formatDuration = (seconds) => {
   if (seconds < 60) {
     return `${seconds} second${seconds !== 1 ? "s" : ""}`;
   } else if (seconds < 3600) {
@@ -22,7 +22,7 @@ const formatDuration = (seconds: number): string => {
   }
 };
 
-const calculateAverageScore = (scores: Array<{ combined: number }>) => {
+const calculateAverageScore = (scores) => {
   const total = scores.reduce((sum, { combined }) => sum + combined, 0);
   return (total / scores.length).toFixed(1);
 };
@@ -30,6 +30,7 @@ const calculateAverageScore = (scores: Array<{ combined: number }>) => {
 const Metrics = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const { scores, duration } = location.state || {};
 
   if (!scores || !duration) {
@@ -95,7 +96,7 @@ const Metrics = () => {
                   dy=".3em"
                   fill="currentColor"
                 >
-                  {Number(averageScore) * 10}%
+                  {Math.round(Number(averageScore) * 10)}%
                 </text>
               </svg>
             </div>
