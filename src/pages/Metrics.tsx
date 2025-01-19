@@ -34,12 +34,21 @@ const Metrics = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const duration = location.state?.duration || 0;
-  const rating = location.state?.rating || 75; // Get rating from location state or default to 75
+  const rating = location.state?.rating || 75;
 
   // Calculate the stroke-dashoffset based on the rating
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference * (1 - rating / 100);
+
+  // Determine the color based on the rating
+  const getRadialColor = (rating: number) => {
+    if (rating < 50) return '#ea384c'; // Red for below 50%
+    if (rating < 70) return '#FEF7CD'; // Yellow for 50-69%
+    return '#10B981'; // Green for 70% and above
+  };
+
+  const radialColor = getRadialColor(rating);
 
   return (
     <Layout>
@@ -60,19 +69,19 @@ const Metrics = () => {
                   cy="50"
                 />
                 <circle
-                  className="text-primary stroke-current"
+                  style={{
+                    stroke: radialColor,
+                    strokeDasharray: circumference,
+                    strokeDashoffset: offset,
+                    transform: 'rotate(-90deg)',
+                    transformOrigin: '50% 50%',
+                  }}
                   strokeWidth="10"
                   strokeLinecap="round"
                   fill="transparent"
                   r={radius}
                   cx="50"
                   cy="50"
-                  style={{
-                    strokeDasharray: circumference,
-                    strokeDashoffset: offset,
-                    transform: 'rotate(-90deg)',
-                    transformOrigin: '50% 50%',
-                  }}
                 />
                 <text
                   x="50"
