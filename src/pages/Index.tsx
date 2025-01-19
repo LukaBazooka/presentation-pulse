@@ -47,6 +47,7 @@ const Index = () => {
         streamRef.current = stream;
         setCameraActive(true);
         setMicActive(true);
+        setIsRecording(true);
         toast.success('Camera and microphone connected successfully');
       }
     } catch (error) {
@@ -63,22 +64,21 @@ const Index = () => {
       streamRef.current = null;
       setCameraActive(false);
       setMicActive(false);
-    }
-  };
-
-  const handlePresentationToggle = async () => {
-    if (isRecording) {
       setIsRecording(false);
-      stopDevices();
       navigate('/metrics', { 
         state: { 
           duration: timer,
           stream: streamRef.current
         } 
       });
+    }
+  };
+
+  const handlePresentationToggle = async () => {
+    if (isRecording) {
+      stopDevices();
     } else {
       await startDevices();
-      setIsRecording(true);
     }
   };
 
@@ -106,14 +106,13 @@ const Index = () => {
             </div>
           </div>
 
-          {videoRef.current && cameraActive && (
-            <div className="w-full max-w-md rounded-lg overflow-hidden">
+          {cameraActive && (
+            <div className="w-full max-w-2xl rounded-lg overflow-hidden bg-dark/50 p-4">
               <video
                 ref={videoRef}
                 autoPlay
                 playsInline
-                muted
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-lg"
               />
             </div>
           )}
