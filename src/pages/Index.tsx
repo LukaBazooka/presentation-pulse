@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mic, Camera, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Layout from '@/components/Layout';
-import { toast } from 'sonner';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -12,8 +11,6 @@ const Index = () => {
   const [micActive, setMicActive] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
   const [engagementScore] = useState(75);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -35,59 +32,16 @@ const Index = () => {
     return 'text-green-500';
   };
 
-  const startDevices = async () => {
-    try {
-      console.log('Requesting media devices...');
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: true,
-        audio: true 
-      });
-      
-      console.log('Media devices accessed successfully');
-      if (videoRef.current) {
-        console.log('Setting video stream...');
-        videoRef.current.srcObject = stream;
-        streamRef.current = stream;
-        setCameraActive(true);
-        setMicActive(true);
-        setIsRecording(true);
-        toast.success('Camera and microphone connected successfully');
-      } else {
-        console.error('Video reference not found');
-      }
-    } catch (error) {
-      console.error('Error accessing devices:', error);
-      toast.error('Failed to access camera and microphone');
-      setCameraActive(false);
-      setMicActive(false);
-    }
-  };
-
-  const stopDevices = () => {
-    if (streamRef.current) {
-      console.log('Stopping all tracks...');
-      streamRef.current.getTracks().forEach(track => track.stop());
-      streamRef.current = null;
-      setCameraActive(false);
-      setMicActive(false);
-      setIsRecording(false);
-      navigate('/metrics', { 
-        state: { 
-          duration: timer,
-          stream: streamRef.current
-        } 
-      });
-    }
-  };
-
-  const handlePresentationToggle = async () => {
-    console.log('Toggling presentation, current state:', isRecording);
+  const handlePresentationToggle = () => {
     if (isRecording) {
-      stopDevices();
+      setIsRecording(false);
+      navigate('/metrics', { state: { duration: timer } });
     } else {
-      await startDevices();
+      setIsRecording(true);
     }
   };
+
+  const canStartPresentation = micActive && cameraActive;
 
   return (
     <Layout>
@@ -104,26 +58,45 @@ const Index = () => {
           />
 
           <div className="flex gap-4">
-            <div className={`p-4 rounded-full ${micActive ? 'bg-primary' : 'bg-red-500'}`}>
-              <Mic className="h-6 w-6 text-light" />
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className={`p-4 rounded-full ${micActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
+                  <Mic className="h-6 w-6 text-light" />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                <DropdownMenuItem onClick={() => setMicActive(true)}>
+                  Default Microphone
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-            <div className={`p-4 rounded-full ${cameraActive ? 'bg-primary' : 'bg-red-500'}`}>
-              <Camera className="h-6 w-6 text-light" />
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className={`p-4 rounded-full ${cameraActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
+                  <Camera className="h-6 w-6 text-light" />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                <DropdownMenuItem onClick={() => setCameraActive(true)}>
+                  Default Camera
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className={`w-full max-w-2xl rounded-lg ${cameraActive ? 'block' : 'hidden'}`}
-          />
+          {canStartPresentation && (
+            <p className="text-light text-lg">Ready to present!</p>
+          )}
 
           <button
             onClick={handlePresentationToggle}
-            className="px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold bg-primary hover:bg-primary-hover cursor-pointer"
+            disabled={!canStartPresentation}
+            className={`px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold ${
+              canStartPresentation 
+                ? 'bg-primary hover:bg-primary-hover cursor-pointer' 
+                : 'bg-gray-500 cursor-not-allowed opacity-50'
+            }`}
           >
             {isRecording ? 'Stop Presentation' : 'Start Presentation'}
           </button>

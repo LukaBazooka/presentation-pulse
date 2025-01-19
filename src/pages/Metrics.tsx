@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Layout from '@/components/Layout';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
 
 const data = [
   { time: '0:00', score: 65 },
@@ -35,25 +34,6 @@ const Metrics = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const duration = location.state?.duration || 0;
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    console.log('Stream received:', location.state?.stream);
-    if (location.state?.stream && videoRef.current) {
-      try {
-        videoRef.current.srcObject = location.state.stream;
-        videoRef.current.play().catch(error => {
-          console.error('Error playing video:', error);
-          toast.error('Failed to play video feed');
-        });
-      } catch (error) {
-        console.error('Error setting video source:', error);
-        toast.error('Failed to set video source');
-      }
-    } else {
-      console.log('No stream available or video element not ready');
-    }
-  }, [location.state?.stream]);
 
   return (
     <Layout>
@@ -61,16 +41,6 @@ const Metrics = () => {
         <h1 className="text-3xl font-bold mb-8">Here's how you did.</h1>
         
         <div className="grid md:grid-cols-2 gap-8 mb-8">
-          {/* Video Playback */}
-          <div className="bg-dark/50 p-6 rounded-lg">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-
           {/* Engagement Score */}
           <div className="bg-dark/50 p-6 rounded-lg">
             <div className="relative w-48 h-48 mx-auto">
@@ -111,6 +81,28 @@ const Metrics = () => {
               </svg>
             </div>
             <p className="text-center text-lg mt-4 text-gray-300">Your presentation rating</p>
+          </div>
+
+          {/* Engagement Graph */}
+          <div className="bg-dark/50 p-6 rounded-lg">
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                <XAxis dataKey="time" stroke="#fff" />
+                <YAxis stroke="#fff" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: '#222', border: 'none' }}
+                  itemStyle={{ color: '#fff' }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="score" 
+                  stroke="#10B981" 
+                  strokeWidth={2}
+                  dot={{ fill: '#10B981' }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
