@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mic, Camera, Users } from 'lucide-react';
+import { Mic, Camera, Users2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Layout from '@/components/Layout';
@@ -51,7 +51,7 @@ const Index = () => {
         </h1>
         
         <div className="flex flex-col items-center gap-8">
-          <Users 
+          <Users2 
             className={`w-32 h-32 transition-colors duration-500 ${
               isRecording ? `${getScoreColor(engagementScore)} animate-pulse` : 'text-gray-400'
             }`}
