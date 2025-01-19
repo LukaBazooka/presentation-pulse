@@ -69,7 +69,7 @@ const Metrics = () => {
   // Determine the color based on the rating
   const getRadialColor = (rating: number) => {
     if (rating < 50) return '#ea384c';
-    if (rating < 70) return '#FEF7CD';
+    if (rating < 70) return '#F97316'; // Changed to a more vibrant orange-yellow
     return '#10B981';
   };
 
