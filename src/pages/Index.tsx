@@ -113,16 +113,13 @@ const Index = () => {
             </div>
           </div>
 
-          {cameraActive && (
-            <div className="w-full max-w-2xl rounded-lg overflow-hidden bg-dark/50 p-4">
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </div>
-          )}
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className={`w-full max-w-2xl rounded-lg ${cameraActive ? 'block' : 'hidden'}`}
+          />
 
           <button
             onClick={handlePresentationToggle}
