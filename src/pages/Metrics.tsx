@@ -91,6 +91,12 @@ const Metrics = () => {
     setIsPopoverOpen(true);
   };
 
+  const getRetentionText = (score: number) => {
+    if (score > 70) return "High retention";
+    if (score >= 50) return "Medium retention";
+    return "Low retention";
+  };
+
   return (
     <Layout>
       <div className="max-w-6xl mx-auto text-light">
@@ -175,6 +181,7 @@ const Metrics = () => {
                           onMouseLeave={() => setIsPopoverOpen(false)}
                         >
                           <div className="p-2">
+                            <h3 className="font-bold mb-2">{getRetentionText(payload.score)}</h3>
                             <p className="font-semibold mb-2">Time: {payload.time}</p>
                             <p>Score: {payload.score}</p>
                           </div>
@@ -217,6 +224,7 @@ const Metrics = () => {
             Present Again
           </Button>
         </div>
+
       </div>
     </Layout>
   );
