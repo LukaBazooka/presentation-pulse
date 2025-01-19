@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mic, Camera, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,14 +15,12 @@ const Index = () => {
   const [timer, setTimer] = useState(0);
   const [micActive, setMicActive] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
-  const [engagementScore] = useState(75); // Placeholder score
+  const [engagementScore] = useState(75);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isRecording) {
-      interval = setInterval(() => {
-        setTimer(prev => prev + 1);
-      }, 1000);
+      interval = setInterval(() => setTimer(prev => prev + 1), 1000);
     }
     return () => clearInterval(interval);
   }, [isRecording]);
@@ -54,21 +52,16 @@ const Index = () => {
     <Layout>
       <div className="max-w-4xl mx-auto text-light">
         <h1 className="text-3xl font-bold mb-16 text-center">
-          {isRecording 
-            ? "Good luck on your presentation!" 
-            : "Use pitchington to evaluate your presentation skills."}
+          {isRecording ? "Good luck on your presentation!" : "Use pitchington to evaluate your presentation skills."}
         </h1>
+        
         <div className="flex flex-col items-center gap-8">
-          {/* Engagement Score Visualization */}
           <Users 
             className={`w-32 h-32 transition-colors duration-500 ${
-              isRecording 
-                ? `${getScoreColor(engagementScore)} animate-pulse` 
-                : 'text-gray-400'
+              isRecording ? `${getScoreColor(engagementScore)} animate-pulse` : 'text-gray-400'
             }`}
           />
 
-          {/* Device Controls */}
           <div className="flex gap-4">
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -97,7 +90,10 @@ const Index = () => {
             </DropdownMenu>
           </div>
 
-          {/* Start/Stop Button */}
+          {canStartPresentation && (
+            <p className="text-light text-lg">Ready to present!</p>
+          )}
+
           <button
             onClick={handlePresentationToggle}
             disabled={!canStartPresentation}
@@ -110,7 +106,6 @@ const Index = () => {
             {isRecording ? 'Stop Presentation' : 'Start Presentation'}
           </button>
 
-          {/* Timer Display */}
           {isRecording && (
             <div className="text-2xl font-mono">
               {formatTime(timer)}
