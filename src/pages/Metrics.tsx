@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
+import { useQuery } from "@tanstack/react-query";
 
 const generateTimeData = (duration: number) => {
   const intervals = 5; // Number of data points we want
@@ -55,11 +57,21 @@ const Metrics = () => {
   const navigate = useNavigate();
   const duration = location.state?.duration || 0;
 
-  // Generate graph data based on actual duration
-  const graphData = generateTimeData(duration);
-  
-  // Calculate the rating based on the average of engagement scores
-  const rating = calculateAverageScore(graphData);
+  const fetchMetrics = async () => {
+    const response = await fetch('/api/metrics');
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  };
+
+  const { data, error, isLoading } = useQuery('metrics', fetchMetrics);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const graphData = data.graphData;
+  const rating = data.rating;
 
   // Calculate the stroke-dashoffset based on the rating
   const radius = 40;
