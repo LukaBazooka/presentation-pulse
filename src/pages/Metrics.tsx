@@ -50,6 +50,13 @@ const formatDuration = (seconds: number): string => {
   }
 };
 
+// Function to get color based on score
+const getScoreColor = (score: number) => {
+  if (score < 50) return '#ea384c';
+  if (score < 70) return '#F97316';
+  return '#10B981';
+};
+
 const Metrics = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -85,7 +92,7 @@ const Metrics = () => {
   // Determine the color based on the rating
   const getRadialColor = (rating: number) => {
     if (rating < 50) return '#ea384c';
-    if (rating < 70) return '#F97316'; // Changed to a more vibrant orange-yellow
+    if (rating < 70) return '#F97316';
     return '#10B981';
   };
 
@@ -153,9 +160,20 @@ const Metrics = () => {
                 <Line 
                   type="monotone" 
                   dataKey="score" 
-                  stroke="#10B981" 
+                  stroke={radialColor}
                   strokeWidth={2}
-                  dot={{ fill: '#10B981' }}
+                  dot={(props) => {
+                    const score = props.payload.score;
+                    return (
+                      <circle
+                        cx={props.cx}
+                        cy={props.cy}
+                        r={4}
+                        fill={getScoreColor(score)}
+                        stroke="none"
+                      />
+                    );
+                  }}
                 />
               </LineChart>
             </ResponsiveContainer>
