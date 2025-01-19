@@ -34,6 +34,12 @@ const Metrics = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const duration = location.state?.duration || 0;
+  const rating = location.state?.rating || 75; // Get rating from location state or default to 75
+
+  // Calculate the stroke-dashoffset based on the rating
+  const radius = 40;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference * (1 - rating / 100);
 
   return (
     <Layout>
@@ -49,7 +55,7 @@ const Metrics = () => {
                   className="text-gray-700 stroke-current"
                   strokeWidth="10"
                   fill="transparent"
-                  r="40"
+                  r={radius}
                   cx="50"
                   cy="50"
                 />
@@ -58,12 +64,12 @@ const Metrics = () => {
                   strokeWidth="10"
                   strokeLinecap="round"
                   fill="transparent"
-                  r="40"
+                  r={radius}
                   cx="50"
                   cy="50"
                   style={{
-                    strokeDasharray: `${2 * Math.PI * 40}`,
-                    strokeDashoffset: `${2 * Math.PI * 40 * (1 - 0.75)}`,
+                    strokeDasharray: circumference,
+                    strokeDashoffset: offset,
                     transform: 'rotate(-90deg)',
                     transformOrigin: '50% 50%',
                   }}
@@ -76,7 +82,7 @@ const Metrics = () => {
                   dy=".3em"
                   fill="currentColor"
                 >
-                  75%
+                  {rating}%
                 </text>
               </svg>
             </div>
