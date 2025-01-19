@@ -3,6 +3,7 @@ import Layout from '@/components/Layout';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const generateTimeData = (duration: number) => {
   const intervals = 5;
@@ -15,7 +16,6 @@ const generateTimeData = (duration: number) => {
     const seconds = timeInSeconds % 60;
     const timeLabel = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     
-    // Generate a random score between 30 and 100 for more visible variations
     const score = Math.floor(Math.random() * (100 - 30) + 30);
     
     data.push({
@@ -50,7 +50,6 @@ const formatDuration = (seconds: number): string => {
   }
 };
 
-// Function to get color based on score
 const getScoreColor = (score: number) => {
   if (score < 50) return '#ea384c';
   if (score < 70) return '#F97316';
@@ -61,6 +60,8 @@ const Metrics = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const duration = location.state?.duration;
+  const [selectedPoint, setSelectedPoint] = React.useState<{ x: number; y: number } | null>(null);
+  const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 
   if (!duration) {
     return (
@@ -78,25 +79,17 @@ const Metrics = () => {
     );
   }
 
-  // Generate graph data based on actual duration
   const graphData = generateTimeData(duration);
-  
-  // Calculate the rating based on the average of engagement scores
   const rating = calculateAverageScore(graphData);
-
-  // Calculate the stroke-dashoffset based on the rating
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference * (1 - rating / 100);
+  const radialColor = getScoreColor(rating);
 
-  // Determine the color based on the rating
-  const getRadialColor = (rating: number) => {
-    if (rating < 50) return '#ea384c';
-    if (rating < 70) return '#F97316';
-    return '#10B981';
+  const handleDotClick = (event: any, payload: any) => {
+    setSelectedPoint({ x: event.cx, y: event.cy });
+    setIsPopoverOpen(true);
   };
-
-  const radialColor = getRadialColor(rating);
 
   return (
     <Layout>
@@ -163,14 +156,30 @@ const Metrics = () => {
                   stroke={radialColor}
                   strokeWidth={2}
                   dot={(props) => {
+                    const { cx, cy, payload } = props;
                     return (
-                      <circle
-                        cx={props.cx}
-                        cy={props.cy}
-                        r={4}
-                        fill={radialColor}
-                        stroke="none"
-                      />
+                      <Popover open={isPopoverOpen && selectedPoint?.x === cx}>
+                        <PopoverTrigger asChild>
+                          <circle
+                            cx={cx}
+                            cy={cy}
+                            r={4}
+                            fill={radialColor}
+                            stroke="none"
+                            style={{ cursor: 'pointer' }}
+                            onClick={(e) => handleDotClick(props, payload)}
+                          />
+                        </PopoverTrigger>
+                        <PopoverContent 
+                          className="w-48 bg-dark text-light border-none"
+                          onMouseLeave={() => setIsPopoverOpen(false)}
+                        >
+                          <div className="p-2">
+                            <p className="font-semibold mb-2">Time: {payload.time}</p>
+                            <p>Score: {payload.score}</p>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
                     );
                   }}
                 />
