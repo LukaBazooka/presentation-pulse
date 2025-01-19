@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Layout from '@/components/Layout';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -34,6 +34,13 @@ const Metrics = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const duration = location.state?.duration || 0;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (location.state?.stream && videoRef.current) {
+      videoRef.current.srcObject = location.state.stream;
+    }
+  }, [location.state?.stream]);
 
   return (
     <Layout>
@@ -41,6 +48,19 @@ const Metrics = () => {
         <h1 className="text-3xl font-bold mb-8">Here's how you did.</h1>
         
         <div className="grid md:grid-cols-2 gap-8 mb-8">
+          {/* Video Playback */}
+          {videoRef.current && (
+            <div className="bg-dark/50 p-6 rounded-lg">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          )}
+
           {/* Engagement Score */}
           <div className="bg-dark/50 p-6 rounded-lg">
             <div className="relative w-48 h-48 mx-auto">
@@ -81,28 +101,6 @@ const Metrics = () => {
               </svg>
             </div>
             <p className="text-center text-lg mt-4 text-gray-300">Your presentation rating</p>
-          </div>
-
-          {/* Engagement Graph */}
-          <div className="bg-dark/50 p-6 rounded-lg">
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis dataKey="time" stroke="#fff" />
-                <YAxis stroke="#fff" />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#222', border: 'none' }}
-                  itemStyle={{ color: '#fff' }}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="score" 
-                  stroke="#10B981" 
-                  strokeWidth={2}
-                  dot={{ fill: '#10B981' }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
           </div>
         </div>
 

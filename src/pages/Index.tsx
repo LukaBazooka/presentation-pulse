@@ -13,6 +13,7 @@ const Index = () => {
   const [cameraActive, setCameraActive] = useState(false);
   const [engagementScore] = useState(75);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -34,41 +35,52 @@ const Index = () => {
     return 'text-green-500';
   };
 
-  const startCamera = async () => {
+  const startDevices = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: true,
+        audio: true 
+      });
+      
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        streamRef.current = stream;
         setCameraActive(true);
-        toast.success('Camera connected successfully');
+        setMicActive(true);
+        toast.success('Camera and microphone connected successfully');
       }
     } catch (error) {
-      console.error('Error accessing camera:', error);
-      toast.error('Failed to access camera');
+      console.error('Error accessing devices:', error);
+      toast.error('Failed to access camera and microphone');
       setCameraActive(false);
+      setMicActive(false);
     }
   };
 
-  const stopCamera = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const stream = videoRef.current.srcObject as MediaStream;
-      stream.getTracks().forEach(track => track.stop());
-      videoRef.current.srcObject = null;
+  const stopDevices = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
       setCameraActive(false);
+      setMicActive(false);
     }
   };
 
-  const handlePresentationToggle = () => {
+  const handlePresentationToggle = async () => {
     if (isRecording) {
       setIsRecording(false);
-      stopCamera();
-      navigate('/metrics', { state: { duration: timer } });
+      stopDevices();
+      navigate('/metrics', { 
+        state: { 
+          duration: timer,
+          stream: streamRef.current
+        } 
+      });
     } else {
+      await startDevices();
       setIsRecording(true);
     }
   };
-
-  const canStartPresentation = micActive && cameraActive;
 
   return (
     <Layout>
@@ -85,31 +97,13 @@ const Index = () => {
           />
 
           <div className="flex gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${micActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
-                  <Mic className="h-6 w-6 text-light" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
-                <DropdownMenuItem onClick={() => setMicActive(true)}>
-                  Default Microphone
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className={`p-4 rounded-full ${micActive ? 'bg-primary' : 'bg-red-500'}`}>
+              <Mic className="h-6 w-6 text-light" />
+            </div>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className={`p-4 rounded-full ${cameraActive ? 'bg-primary' : 'bg-red-500'} cursor-pointer`}>
-                  <Camera className="h-6 w-6 text-light" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
-                <DropdownMenuItem onClick={startCamera}>
-                  Default Camera
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className={`p-4 rounded-full ${cameraActive ? 'bg-primary' : 'bg-red-500'}`}>
+              <Camera className="h-6 w-6 text-light" />
+            </div>
           </div>
 
           {videoRef.current && cameraActive && (
@@ -124,18 +118,9 @@ const Index = () => {
             </div>
           )}
 
-          {canStartPresentation && (
-            <p className="text-light text-lg">Ready to present!</p>
-          )}
-
           <button
             onClick={handlePresentationToggle}
-            disabled={!canStartPresentation}
-            className={`px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold ${
-              canStartPresentation 
-                ? 'bg-primary hover:bg-primary-hover cursor-pointer' 
-                : 'bg-gray-500 cursor-not-allowed opacity-50'
-            }`}
+            className="px-8 py-4 text-light rounded-lg transition-colors text-lg font-semibold bg-primary hover:bg-primary-hover cursor-pointer"
           >
             {isRecording ? 'Stop Presentation' : 'Start Presentation'}
           </button>
