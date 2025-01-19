@@ -3,6 +3,7 @@ import { Mic, Camera, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Layout from '@/components/Layout';
+import MediaRecorderComponent from '@/lib/MediaRecorderComponent';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Index = () => {
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isRecording) {
-      interval = setInterval(() => setTimer(prev => prev + 1), 1000);
+      interval = setInterval(() => setTimer((prev) => prev + 1), 1000);
     }
     return () => clearInterval(interval);
   }, [isRecording]);
@@ -84,6 +85,12 @@ const Index = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+
+          <MediaRecorderComponent
+            isRecording={isRecording}
+            onStart={() => console.log("Recording started")}
+            onStop={() => console.log("Recording stopped")}
+          />
 
           {canStartPresentation && (
             <p className="text-light text-lg">Ready to present!</p>
