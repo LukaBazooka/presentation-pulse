@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Mic, Camera, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Layout from '@/components/Layout';
+import { toast } from 'sonner';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Index = () => {
   const [micActive, setMicActive] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
   const [engagementScore] = useState(75);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -32,9 +34,34 @@ const Index = () => {
     return 'text-green-500';
   };
 
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        setCameraActive(true);
+        toast.success('Camera connected successfully');
+      }
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+      toast.error('Failed to access camera');
+      setCameraActive(false);
+    }
+  };
+
+  const stopCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+      setCameraActive(false);
+    }
+  };
+
   const handlePresentationToggle = () => {
     if (isRecording) {
       setIsRecording(false);
+      stopCamera();
       navigate('/metrics', { state: { duration: timer } });
     } else {
       setIsRecording(true);
@@ -78,12 +105,24 @@ const Index = () => {
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-white">
-                <DropdownMenuItem onClick={() => setCameraActive(true)}>
+                <DropdownMenuItem onClick={startCamera}>
                   Default Camera
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+
+          {videoRef.current && cameraActive && (
+            <div className="w-full max-w-md rounded-lg overflow-hidden">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
 
           {canStartPresentation && (
             <p className="text-light text-lg">Ready to present!</p>
