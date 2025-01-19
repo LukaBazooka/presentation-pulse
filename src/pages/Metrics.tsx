@@ -5,8 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const generateTimeData = (duration: number) => {
-  const intervals = 5; // Number of data points we want
-  const timeStep = Math.floor(duration / (intervals - 1)); // Calculate time step between points
+  const intervals = 5;
+  const timeStep = Math.floor(duration / (intervals - 1));
   const data = [];
 
   for (let i = 0; i < intervals; i++) {
@@ -15,8 +15,8 @@ const generateTimeData = (duration: number) => {
     const seconds = timeInSeconds % 60;
     const timeLabel = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     
-    // Generate a random score between 60 and 95 for demonstration
-    const score = Math.floor(Math.random() * (95 - 60) + 60);
+    // Generate a random score between 30 and 100 for more visible variations
+    const score = Math.floor(Math.random() * (100 - 30) + 30);
     
     data.push({
       time: timeLabel,
@@ -68,9 +68,9 @@ const Metrics = () => {
 
   // Determine the color based on the rating
   const getRadialColor = (rating: number) => {
-    if (rating < 50) return '#ea384c'; // Red for below 50%
-    if (rating < 70) return '#FEF7CD'; // Yellow for 50-69%
-    return '#10B981'; // Green for 70% and above
+    if (rating < 50) return '#ea384c';
+    if (rating < 70) return '#FEF7CD';
+    return '#10B981';
   };
 
   const radialColor = getRadialColor(rating);
