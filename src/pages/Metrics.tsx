@@ -3,6 +3,7 @@ import Layout from '@/components/Layout';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const data = [
   { time: '0:00', score: 65 },
@@ -37,8 +38,20 @@ const Metrics = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    console.log('Stream received:', location.state?.stream);
     if (location.state?.stream && videoRef.current) {
-      videoRef.current.srcObject = location.state.stream;
+      try {
+        videoRef.current.srcObject = location.state.stream;
+        videoRef.current.play().catch(error => {
+          console.error('Error playing video:', error);
+          toast.error('Failed to play video feed');
+        });
+      } catch (error) {
+        console.error('Error setting video source:', error);
+        toast.error('Failed to set video source');
+      }
+    } else {
+      console.log('No stream available or video element not ready');
     }
   }, [location.state?.stream]);
 
@@ -49,17 +62,14 @@ const Metrics = () => {
         
         <div className="grid md:grid-cols-2 gap-8 mb-8">
           {/* Video Playback */}
-          {videoRef.current && (
-            <div className="bg-dark/50 p-6 rounded-lg">
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </div>
-          )}
+          <div className="bg-dark/50 p-6 rounded-lg">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
 
           {/* Engagement Score */}
           <div className="bg-dark/50 p-6 rounded-lg">
